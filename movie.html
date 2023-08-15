@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Movie_ticket.com</title>
+</head>
+<body style="background-color: black; color: antiquewhite;">
+    <div class="heading" style="font-size: 80px; margin: 20px;"><u>Pulkit's Webpage</u></div>
+    <marquee behavior="" direction=""><div class="note" style="font-size: 50px;background-color:red;">If you see this page you are very Lucky..!!!!</div></marquee>
+    <div class="second" style="font-size: 50px;"><h3> Click on the poster for download your ticket.... </h3></div>
+    <div class="poster">
+        <a href="ticket/a1.png" id="downloadLink"><img src="gadar2.jpg" alt="" style="margin: auto; padding: auto;"></a>
+    </div>
+    <br>
+    <p style="font-size: 30px;">IF you see All ticket Downloaded then click on Reset Sequence..</p>
+    <button id="resetButton" style="background-color: aqua; color: black; font-size: 40px;">Reset Sequence</button>
+        <script>document.addEventListener("DOMContentLoaded", function() {
+            const downloadLink = document.getElementById("downloadLink");
+            const resetButton = document.getElementById("resetButton");
+            const ticketNumbers = ["a1", "a2", "a3", "a4", "a5"];
+           
+
+            resetButton.addEventListener("click", function() {
+                localStorage.removeItem("currentTicketIndex");
+                location.reload(); // Reload the page after resetting local storage
+            });
+
+            let currentTicketIndex = parseInt(localStorage.getItem("currentTicketIndex")) || 0;
+
+            downloadLink.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                if (currentTicketIndex < ticketNumbers.length) {
+                    const ticketNumber = ticketNumbers[currentTicketIndex];
+                    const ticketImagePath = ticketNumber + ".png";
+                    const downloadLink = document.createElement("a");
+                    downloadLink.href = ticketImagePath;
+                    downloadLink.download = ticketNumber + ".png";
+                    downloadLink.click();
+
+                    currentTicketIndex++;
+                    localStorage.setItem("currentTicketIndex", currentTicketIndex);
+                    downloadLink.textContent = "Download Ticket " + (currentTicketIndex + 1);
+                } else {
+                    downloadLink.textContent = "All Tickets Downloaded";
+                    downloadLink.removeEventListener("click");
+                    localStorage.removeItem("currentTicketIndex");
+                }
+            });
+        });
+     </script>
+</body>
+</html>
